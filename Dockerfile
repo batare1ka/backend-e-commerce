@@ -2,14 +2,10 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy only package files first → better caching
-COPY package*.json ./
+# COPY package*.json ./
 
-# Install ALL dependencies (dev + prod)
-RUN npm install
+# RUN npm install
 
-# Copy the rest of your code (optional during dev, but good practice)
-COPY . .
+# COPY . .
 
-# This will be overridden by docker-compose if needed
-CMD ["npm", "run", "dev"]
+# CMD ["npm", "run", "dev"]
