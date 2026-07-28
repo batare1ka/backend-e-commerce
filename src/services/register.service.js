@@ -1,6 +1,6 @@
 import * as userRepository from "../repositories/user.repository.js";
 import { hashPassword } from "../utils/password.js";
-// import { ApiError } from "../utils/ApiError.js";
+import HttpError from "../errors/http-error.js";
 
 export async function register(data) {
   const {
@@ -9,20 +9,26 @@ export async function register(data) {
     password,
     firstName,
     lastName,
+    phone,
+    avatarUrl,
+    bio,
+    preferredLanguage,
+    countryCode,
+    timezone,
   } = data;
 
   // Check email uniqueness
   const existingEmail = await userRepository.findByEmail(email);
 
   if (existingEmail) {
-    throw new ApiError(409, "Email is already registered.");
+    throw new HttpError(409, "Email is already registered.");
   }
 
   // Check username uniqueness
   const existingUsername = await userRepository.findByUsername(username);
 
   if (existingUsername) {
-    throw new ApiError(409, "Username is already taken.");
+    throw new HttpError(409, "Username is already taken.");
   }
 
   // Hash password
@@ -39,11 +45,16 @@ export async function register(data) {
     role: "user",
     isActive: true,
     isVerified: false,
+    phone: phone ?? null,
+    avatarUrl: avatarUrl ?? null,
+    bio: bio ?? null,
+    preferredLanguage: preferredLanguage ?? 'en',
+    countryCode: countryCode ?? null,
+    timezone: timezone ?? 'UTC',
   };
 
-//   // Save to database
-//   const createdUser = await userRepository.create(userToCreate);
+  // Save to database
+  const createdUser = await userRepository.create(userToCreate);
 
-//   // Never expose password hashes
-  return 'createdUser';
+  return createdUser;
 }

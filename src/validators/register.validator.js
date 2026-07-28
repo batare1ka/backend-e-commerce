@@ -40,4 +40,40 @@ export const registerSchema = z.object({
     .trim()
     .min(1, "Last name is required.")
     .max(100, "Last name is too long."),
+
+  phone: z
+    .string()
+    .trim()
+    .max(30, "Phone number is too long.")
+    .optional(),
+
+  avatarUrl: z
+    .string()
+    .url("Avatar URL must be a valid URL.")
+    .optional(),
+
+  bio: z
+    .string()
+    .trim()
+    .max(500, "Bio must be under 500 characters.")
+    .optional(),
+
+  preferredLanguage: z
+    .string()
+    .trim()
+    .length(2, "Language must be a 2-letter code.")
+    .optional(),
+
+  countryCode: z
+    .string()
+    .trim()
+    .length(2, "Country code must be a 2-letter code.")
+    .optional(),
+
+  timezone: z
+    .string()
+    .trim()
+    .min(1, "Timezone is required.")
+    .max(64, "Timezone is too long.")
+    .optional(),
 });

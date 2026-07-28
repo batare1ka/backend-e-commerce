@@ -45,7 +45,13 @@ export async function create(user) {
       display_name,
       role,
       is_active,
-      is_verified
+      is_verified,
+      phone,
+      avatar_url,
+      bio,
+      preferred_language,
+      country_code,
+      timezone
     )
     VALUES (
       $1,
@@ -56,7 +62,13 @@ export async function create(user) {
       $6,
       $7,
       $8,
-      $9
+      $9,
+      $10,
+      $11,
+      $12,
+      $13,
+      $14,
+      $15
     )
     RETURNING
       id,
@@ -82,6 +94,12 @@ export async function create(user) {
     user.role,
     user.isActive,
     user.isVerified,
+    user.phone,
+    user.avatarUrl,
+    user.bio,
+    user.preferredLanguage,
+    user.countryCode,
+    user.timezone,
   ];
 
   const pool = DiContainer.get('pool');
