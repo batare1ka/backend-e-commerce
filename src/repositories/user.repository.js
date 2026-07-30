@@ -17,6 +17,33 @@ export async function findByEmail(email) {
   return result.rows[0] ?? null;
 };
 
+export async function findAuthUserByEmail(email) {
+
+  const query = `
+    SELECT
+      id,
+      email,
+      username,
+      password_hash,
+      role,
+      is_active,
+      is_verified,
+      first_name,
+      last_name,
+      display_name
+    FROM users
+    WHERE email = $1
+    AND deleted_at IS NULL
+    LIMIT 1
+  `;
+
+
+  const result = await pool.query(query, [email]);
+
+
+  return result.rows[0] ?? null;
+}
+
 export async function findByUsername(username) {
   const query = `
     SELECT *
