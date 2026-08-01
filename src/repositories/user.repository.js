@@ -36,7 +36,7 @@ export async function findAuthUserByEmail(email) {
     AND deleted_at IS NULL
     LIMIT 1
   `;
-
+  const pool = DiContainer.get('pool');
 
   const result = await pool.query(query, [email]);
 
@@ -134,3 +134,21 @@ export async function create(user) {
 
   return result.rows[0];
 }
+
+export async function updateLastLogin(userId) {
+  const query = `
+    UPDATE users
+    SET
+      last_login_at = NOW(),
+      updated_at = NOW()
+    WHERE id = $1
+      AND deleted_at IS NULL
+    RETURNING id
+  `;
+
+  const pool = DiContainer.get('pool');
+  const result = await pool.query(query, [userId]);
+
+  return result.rowCount > 0;
+}
+

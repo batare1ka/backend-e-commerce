@@ -1,4 +1,4 @@
-export const validateRegistration = (schema) => {
+export const validateSchema = (schema) => {
   return (req, res, next) => {
     const result = schema.safeParse(req.body);
 

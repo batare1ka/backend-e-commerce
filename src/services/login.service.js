@@ -50,10 +50,6 @@ export async function login(data) {
     );
   }
 
-
-  await userRepository.updateLastLogin(user.id);
-
-
   const accessToken =
     generateAccessToken({
       userId: user.id,
@@ -66,6 +62,7 @@ export async function login(data) {
       userId: user.id
     });
 
+    await userRepository.updateLastLogin(user.id);
 
   return {
     user: {
