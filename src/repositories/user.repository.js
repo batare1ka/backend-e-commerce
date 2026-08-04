@@ -44,6 +44,32 @@ export async function findAuthUserByEmail(email) {
   return result.rows[0] ?? null;
 }
 
+export async function findAuthUserById(id) {
+
+  const query = `
+    SELECT
+      id,
+      email,
+      username,
+      role,
+      is_active,
+      is_verified,
+      first_name,
+      last_name,
+      display_name
+    FROM users
+    WHERE id = $1
+    AND deleted_at IS NULL
+    LIMIT 1
+  `;
+  const pool = DiContainer.get('pool');
+
+  const result = await pool.query(query, [id]);
+
+
+  return result.rows[0] ?? null;
+}
+
 export async function findByUsername(username) {
   const query = `
     SELECT *

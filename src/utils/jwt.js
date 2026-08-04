@@ -20,3 +20,7 @@ export function generateRefreshToken(payload) {
     }
   );
 }
+
+export function verifyToken(token, secret) {
+  return jwt.verify(token, secret);
+}
